@@ -1,8 +1,10 @@
 import 'package:employee_management/core/assets/local_assets.dart';
+import 'package:employee_management/cubit/employee_form_cubit.dart';
 import 'package:employee_management/presentation/pages/employee_form_page.dart';
 import 'package:flutter/material.dart';
 import 'package:employee_management/core/constants/app_colors.dart';
 import 'package:employee_management/core/constants/app_strings.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EmployeeListPage extends StatelessWidget {
   const EmployeeListPage({super.key});
@@ -30,7 +32,13 @@ class EmployeeListPage extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => EmployeeFormPage()),
+            MaterialPageRoute(
+              builder:
+                  (context) => BlocProvider(
+                    create: (_) => EmployeeFormCubit(),
+                    child: const EmployeeFormPage(),
+                  ),
+            ),
           );
         },
         backgroundColor: AppColors.primary,

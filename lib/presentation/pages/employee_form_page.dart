@@ -1,9 +1,14 @@
 import 'package:employee_management/core/assets/local_assets.dart';
 import 'package:employee_management/core/constants/app_colors.dart';
+import 'package:employee_management/core/constants/app_enums.dart';
 import 'package:employee_management/core/constants/app_strings.dart';
 import 'package:employee_management/core/widgets/custom_drop_down_field.dart';
 import 'package:employee_management/core/widgets/custom_text_field.dart';
+import 'package:employee_management/cubit/employee_form_cubit.dart';
+import 'package:employee_management/cubit/employee_form_state.dart';
+import 'package:employee_management/presentation/widgets/role_selection_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EmployeeFormPage extends StatelessWidget {
   const EmployeeFormPage({super.key});
@@ -37,16 +42,56 @@ class EmployeeFormPage extends StatelessWidget {
             ),
             const SizedBox(height: 18),
 
-            // Dropdown Placeholder
-            CustomDropdownField<String>(
-              hintText: AppStrings.selectRoleHint,
-              items: [],
-              onChanged: (val) {},
-              prefixIcon: Image.asset(ImagePaths.briefcaseHollowIcon),
+            // Role Selection Dropdown using Cubit & Bottom Sheet
+            BlocBuilder<EmployeeFormCubit, EmployeeFormState>(
+              builder: (context, selectedRole) {
+                final cubit = context.read<EmployeeFormCubit>();
+                return GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
+                      builder:
+                          (_) => BlocProvider.value(
+                            value: cubit,
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 80),
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20),
+                                ),
+                              ),
+                              child: const RoleBottomSheet(
+                                roles: EmployeeRole.values,
+                              ),
+                            ),
+                          ),
+                    );
+                  },
+                  child: AbsorbPointer(
+                    child: CustomDropdownField<EmployeeRole>(
+                      hintText: AppStrings.selectRoleHint,
+                      value: selectedRole.selectedRole,
+                      items:
+                          EmployeeRole.values.map((role) {
+                            return DropdownMenuItem<EmployeeRole>(
+                              value: role,
+                              child: Text(role.label),
+                            );
+                          }).toList(),
+                      onChanged: (_) {},
+                      prefixIcon: Image.asset(ImagePaths.briefcaseHollowIcon),
+                    ),
+                  ),
+                );
+              },
             ),
+
             const SizedBox(height: 18),
 
-            // Date Field
+            // Date Range Fields
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -57,9 +102,9 @@ class EmployeeFormPage extends StatelessWidget {
                     readOnly: true,
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Image.asset(ImagePaths.arrowRightIcon, height: 20, width: 20),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: CustomTextField(
                     hintText: AppStrings.noDateHint,
@@ -88,7 +133,6 @@ class EmployeeFormPage extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
           ),
         ),
-
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
