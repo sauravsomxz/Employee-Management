@@ -2,6 +2,7 @@ import 'package:employee_management/core/assets/local_assets.dart';
 import 'package:employee_management/core/constants/app_colors.dart';
 import 'package:employee_management/core/constants/app_enums.dart';
 import 'package:employee_management/core/constants/app_strings.dart';
+import 'package:employee_management/core/widgets/custom_calendar_widget.dart';
 import 'package:employee_management/core/widgets/custom_drop_down_field.dart';
 import 'package:employee_management/core/widgets/custom_text_field.dart';
 import 'package:employee_management/cubit/employee_form_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:employee_management/cubit/employee_form_state.dart';
 import 'package:employee_management/presentation/widgets/role_selection_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class EmployeeFormPage extends StatelessWidget {
   const EmployeeFormPage({super.key});
@@ -90,26 +92,80 @@ class EmployeeFormPage extends StatelessWidget {
             ),
 
             const SizedBox(height: 18),
-
             // Date Range Fields
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
-                  child: CustomTextField(
-                    hintText: AppStrings.todayHint,
-                    prefixIcon: Image.asset(ImagePaths.calendarHollowIcon),
-                    readOnly: true,
+                  child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder:
+                            (_) => CustomCalendarDialog(
+                              onDateSelected: (selectedDate) {
+                                context.read<EmployeeFormCubit>().setStartDate(
+                                  selectedDate,
+                                );
+                              },
+                            ),
+                      );
+                    },
+                    child: AbsorbPointer(
+                      child: CustomTextField(
+                        hintText:
+                            context
+                                        .watch<EmployeeFormCubit>()
+                                        .state
+                                        .startDate !=
+                                    null
+                                ? DateFormat('dd MMM, yyyy').format(
+                                  context
+                                      .watch<EmployeeFormCubit>()
+                                      .state
+                                      .startDate!,
+                                )
+                                : AppStrings.todayHint,
+                        prefixIcon: Image.asset(ImagePaths.calendarHollowIcon),
+                        readOnly: true,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
                 Image.asset(ImagePaths.arrowRightIcon, height: 20, width: 20),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: CustomTextField(
-                    hintText: AppStrings.noDateHint,
-                    prefixIcon: Image.asset(ImagePaths.calendarHollowIcon),
-                    readOnly: true,
+                  child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder:
+                            (_) => CustomCalendarDialog(
+                              onDateSelected: (selectedDate) {
+                                context.read<EmployeeFormCubit>().setEndDate(
+                                  selectedDate,
+                                );
+                              },
+                            ),
+                      );
+                    },
+                    child: AbsorbPointer(
+                      child: CustomTextField(
+                        hintText:
+                            context.watch<EmployeeFormCubit>().state.endDate !=
+                                    null
+                                ? DateFormat('dd MMM, yyyy').format(
+                                  context
+                                      .watch<EmployeeFormCubit>()
+                                      .state
+                                      .endDate!,
+                                )
+                                : AppStrings.noDateHint,
+                        prefixIcon: Image.asset(ImagePaths.calendarHollowIcon),
+                        readOnly: true,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -123,7 +179,7 @@ class EmployeeFormPage extends StatelessWidget {
           style: TextButton.styleFrom(
             backgroundColor: AppColors.cancelButtonBg,
             foregroundColor: AppColors.primary,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
             ),
@@ -138,7 +194,7 @@ class EmployeeFormPage extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
             foregroundColor: AppColors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
             ),
