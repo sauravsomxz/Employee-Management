@@ -1,3 +1,4 @@
+import 'package:employee_management/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'presentation/pages/employee_list_page.dart';
 
@@ -11,13 +12,14 @@ class EmployeeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Employee Manager',
       theme: ThemeData(
-        useMaterial3: true,
-        scaffoldBackgroundColor: Colors.white,
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: AppColors.primary,
+          selectionColor: AppColors.textSelectionColor,
+          selectionHandleColor: AppColors.primary,
+        ),
       ),
-      home: const EmployeeListPage(),
-      debugShowCheckedModeBanner: false,
+      home: EmployeeListPage(),
     );
   }
 }

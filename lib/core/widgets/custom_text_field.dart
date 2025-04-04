@@ -25,7 +25,12 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         readOnly: readOnly,
         onTap: onTap,
-        style: const TextStyle(fontSize: 13),
+        textCapitalization: TextCapitalization.words,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: AppColors.textColor,
+        ),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(horizontal: 12),
           hintText: hintText,

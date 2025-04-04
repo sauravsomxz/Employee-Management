@@ -30,6 +30,7 @@ class EmployeeFormPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Name Field
             CustomTextField(
               hintText: AppStrings.employeeNameHint,
               prefixIcon: Image.asset(ImagePaths.personHollowIcon),
@@ -45,6 +46,7 @@ class EmployeeFormPage extends StatelessWidget {
             ),
             const SizedBox(height: 18),
 
+            // Date Field
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
