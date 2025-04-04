@@ -5,6 +5,7 @@ import 'package:employee_management/core/constants/app_strings.dart';
 import 'package:employee_management/core/widgets/custom_calendar_widget.dart';
 import 'package:employee_management/core/widgets/custom_drop_down_field.dart';
 import 'package:employee_management/core/widgets/custom_text_field.dart';
+import 'package:employee_management/cubit/calendar/calendar_cubit.dart';
 import 'package:employee_management/cubit/employee_form_cubit.dart';
 import 'package:employee_management/cubit/employee_form_state.dart';
 import 'package:employee_management/presentation/widgets/role_selection_bottom_sheet.dart';
@@ -101,14 +102,16 @@ class EmployeeFormPage extends StatelessWidget {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder:
-                            (_) => CustomCalendarDialog(
-                              onDateSelected: (selectedDate) {
-                                context.read<EmployeeFormCubit>().setStartDate(
-                                  selectedDate,
-                                );
+                        builder: (context) {
+                          return BlocProvider(
+                            create: (_) => CalendarCubit(),
+                            child: CustomCalendarDialog(
+                              onDateSelected: (date) {
+                                // use selected date
                               },
                             ),
+                          );
+                        },
                       );
                     },
                     child: AbsorbPointer(
