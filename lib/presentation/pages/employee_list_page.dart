@@ -1,4 +1,5 @@
 import 'package:employee_management/core/assets/local_assets.dart';
+import 'package:employee_management/presentation/pages/employee_form_page.dart';
 import 'package:flutter/material.dart';
 import 'package:employee_management/core/constants/app_colors.dart';
 import 'package:employee_management/core/constants/app_strings.dart';
@@ -27,7 +28,10 @@ class EmployeeListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // navigate to form page or add logic
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EmployeeFormPage()),
+          );
         },
         backgroundColor: AppColors.primary,
         materialTapTargetSize: MaterialTapTargetSize.padded,

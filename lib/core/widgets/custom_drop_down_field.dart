@@ -1,35 +1,38 @@
 import 'package:employee_management/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomDropdownField<T> extends StatelessWidget {
   final String hintText;
+  final List<DropdownMenuItem<T>> items;
+  final T? value;
+  final ValueChanged<T?> onChanged;
   final Widget? prefixIcon;
-  final bool readOnly;
-  final VoidCallback? onTap;
-  final TextEditingController? controller;
 
-  const CustomTextField({
+  const CustomDropdownField({
     super.key,
     required this.hintText,
+    required this.items,
+    required this.onChanged,
+    this.value,
     this.prefixIcon,
-    this.readOnly = false,
-    this.onTap,
-    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 44,
-      child: TextField(
-        controller: controller,
-        readOnly: readOnly,
-        onTap: onTap,
-        style: const TextStyle(fontSize: 13),
+      child: DropdownButtonFormField<T>(
+        value: value,
+        items: items,
+        onChanged: onChanged,
+        style: const TextStyle(fontSize: 13, color: Colors.black),
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
           hintText: hintText,
           hintStyle: const TextStyle(fontSize: 13),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 0,
+          ),
           prefixIcon:
               prefixIcon != null
                   ? Padding(
@@ -46,6 +49,8 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
           ),
         ),
+        icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 20),
+        borderRadius: BorderRadius.circular(6),
       ),
     );
   }
