@@ -3,6 +3,10 @@ class AppStrings {
   static const String noData = 'No employee found. Add your first!';
   static const String addEmployeeDetails = "Add Employee Details";
 
+  /// Generic Text
+  static const String cancel = "Cancel";
+  static const String save = "Save";
+
   /// Hint Strings for Employee Form Page
   static const String employeeNameHint = "Employee Name";
   static const String selectRoleHint = "Select Role";

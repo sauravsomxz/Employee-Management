@@ -72,7 +72,7 @@ class EmployeeFormPage extends StatelessWidget {
       ),
       persistentFooterButtons: [
         TextButton(
-          onPressed: () {},
+          onPressed: () => Navigator.pop(context),
           style: TextButton.styleFrom(
             backgroundColor: AppColors.cancelButtonBg,
             foregroundColor: AppColors.primary,
@@ -81,7 +81,10 @@ class EmployeeFormPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
             ),
           ),
-          child: const Text('Cancel'),
+          child: const Text(
+            AppStrings.cancel,
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+          ),
         ),
 
         ElevatedButton(
@@ -94,7 +97,14 @@ class EmployeeFormPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
             ),
           ),
-          child: const Text('Save'),
+          child: const Text(
+            AppStrings.save,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              color: AppColors.white,
+            ),
+          ),
         ),
       ],
     );
