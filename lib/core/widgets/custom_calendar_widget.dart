@@ -45,7 +45,7 @@ class CustomCalendarDialog extends StatelessWidget {
                             context.read<CalendarCubit>().selectDate(date),
                   ),
                   const Divider(),
-                  Footer(
+                  CalendarFooter(
                     selectedDate: selectedDate,
                     onDateSelected: onDateSelected,
                   ),

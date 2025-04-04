@@ -4,11 +4,11 @@ import 'package:employee_management/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class Footer extends StatelessWidget {
+class CalendarFooter extends StatelessWidget {
   final DateTime selectedDate;
   final Function(DateTime) onDateSelected;
 
-  const Footer({
+  const CalendarFooter({
     super.key,
     required this.selectedDate,
     required this.onDateSelected,
@@ -51,7 +51,10 @@ class Footer extends StatelessWidget {
             ),
             SizedBox(width: 12),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                onDateSelected(selectedDate);
+                Navigator.pop(context);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.white,
