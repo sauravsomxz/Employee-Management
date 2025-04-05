@@ -44,6 +44,7 @@ class EmployeeListPage extends StatelessWidget {
               }
 
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (current.isNotEmpty) ...[
                     Container(
@@ -107,6 +108,18 @@ class EmployeeListPage extends StatelessWidget {
                       );
                     }),
                   ],
+                  const SizedBox(height: 12),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      "Swipe to delete",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        color: AppColors.textColor,
+                      ),
+                    ),
+                  ),
                 ],
               );
             },
