@@ -7,17 +7,22 @@ class CalendarState {
 
   CalendarState({required this.selectedDate, required this.startDate});
 
-  CalendarState copyWith({DateTime? selectedDate, DateTime? startDate}) {
+  CalendarState copyWith({
+    DateTime? selectedDate,
+    bool clearSelectedDate = false,
+    DateTime? startDate,
+  }) {
     return CalendarState(
-      selectedDate: selectedDate ?? this.selectedDate,
+      selectedDate:
+          clearSelectedDate ? null : selectedDate ?? this.selectedDate,
       startDate: startDate ?? this.startDate,
     );
   }
 }
 
 class CalendarCubit extends Cubit<CalendarState> {
-  CalendarCubit({DateTime? startDate})
-    : super(CalendarState(selectedDate: DateTime.now(), startDate: startDate));
+  CalendarCubit({DateTime? selectedDate, DateTime? startDate})
+    : super(CalendarState(selectedDate: selectedDate, startDate: startDate));
 
   void setStartDate(DateTime date) {
     emit(state.copyWith(startDate: date));
@@ -37,7 +42,7 @@ class CalendarCubit extends Cubit<CalendarState> {
   }
 
   void clearDate() {
-    emit(state.copyWith(selectedDate: null));
+    emit(state.copyWith(clearSelectedDate: true));
   }
 
   void changeMonth(int offset) {

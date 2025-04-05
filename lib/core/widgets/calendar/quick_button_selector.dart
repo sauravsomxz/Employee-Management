@@ -32,7 +32,7 @@ class QuickButtonsSection extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: QuickSelectButton(
-              label: "Today Only",
+              label: "Today",
               daysToAdd: 0,
               selectedDate: selectedDate,
               onTap:

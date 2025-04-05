@@ -217,9 +217,9 @@ class _EmployeeFormPageState extends State<EmployeeFormPage> {
                                       startDate: cubit.state.startDate,
                                     ),
                                 child: CustomCalendarDialog(
-                                  onDateSelected:
-                                      (selectedDate) =>
-                                          cubit.setEndDate(selectedDate!),
+                                  onDateSelected: (selectedDate) {
+                                    cubit.setEndDate(selectedDate);
+                                  },
                                   calendarType: CalendarType.endDate,
                                 ),
                               ),

@@ -28,7 +28,7 @@ class EmployeeFormCubit extends Cubit<EmployeeFormState> {
     emit(state.copyWith(startDate: date));
   }
 
-  void setEndDate(DateTime date) {
+  void setEndDate(DateTime? date) {
     emit(state.copyWith(endDate: date));
   }
 }

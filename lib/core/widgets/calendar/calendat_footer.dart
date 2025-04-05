@@ -54,8 +54,10 @@ class CalendarFooter extends StatelessWidget {
             const SizedBox(width: 12),
             ElevatedButton(
               onPressed: () {
-                onDateSelected(selectedDate); // null-safe callback
                 Navigator.pop(context);
+                onDateSelected(
+                  selectedDate,
+                ); // <-- This will be null if "No Date" tapped
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
