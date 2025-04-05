@@ -70,7 +70,13 @@ class EmployeeListPage extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          EmployeeCard(employee: employee),
+                          EmployeeCard(
+                            employee: employee,
+                            onDelete:
+                                () =>
+                                    EmployeeRepository.deleteEmployee(employee),
+                            index: index,
+                          ),
                           if (!isLast) const Divider(height: 0),
                         ],
                       );
@@ -101,7 +107,13 @@ class EmployeeListPage extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          EmployeeCard(employee: employee),
+                          EmployeeCard(
+                            employee: employee,
+                            onDelete:
+                                () =>
+                                    EmployeeRepository.deleteEmployee(employee),
+                            index: index,
+                          ),
                           if (!isLast) const Divider(height: 0),
                         ],
                       );
