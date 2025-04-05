@@ -17,7 +17,7 @@ class EmployeeFormState {
     return EmployeeFormState(
       name: null,
       selectedRole: null,
-      startDate: null,
+      startDate: DateTime.now(),
       endDate: null,
     );
   }

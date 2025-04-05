@@ -51,7 +51,6 @@ class EmployeeCard extends StatelessWidget {
               );
             },
             backgroundColor: Colors.red,
-            // foregroundColor: Colors.white,
             icon: Icons.delete,
           ),
         ],
