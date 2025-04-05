@@ -113,8 +113,9 @@ class EmployeeFormPage extends StatelessWidget {
                                 create: (_) => CalendarCubit(),
                                 child: CustomCalendarDialog(
                                   onDateSelected: (date) {
-                                    cubit.setStartDate(date);
+                                    cubit.setStartDate(date!);
                                   },
+                                  calendarType: CalendarType.startDate,
                                 ),
                               ),
                         );
@@ -148,15 +149,19 @@ class EmployeeFormPage extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
+                        final cubit = context.read<EmployeeFormCubit>();
+
                         showDialog(
                           context: context,
                           builder:
-                              (_) => CustomCalendarDialog(
-                                onDateSelected: (selectedDate) {
-                                  context.read<EmployeeFormCubit>().setEndDate(
-                                    selectedDate,
-                                  );
-                                },
+                              (_) => BlocProvider(
+                                create: (_) => CalendarCubit(),
+                                child: CustomCalendarDialog(
+                                  onDateSelected: (date) {
+                                    cubit.setEndDate(date!);
+                                  },
+                                  calendarType: CalendarType.endDate,
+                                ),
                               ),
                         );
                       },

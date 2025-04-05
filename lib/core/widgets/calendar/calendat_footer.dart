@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class CalendarFooter extends StatelessWidget {
-  final DateTime selectedDate;
-  final Function(DateTime) onDateSelected;
+  final DateTime? selectedDate;
+  final Function(DateTime?) onDateSelected;
 
   const CalendarFooter({
     super.key,
@@ -24,7 +24,9 @@ class CalendarFooter extends StatelessWidget {
             Image.asset(ImagePaths.calendarHollowIcon, height: 24, width: 24),
             const SizedBox(width: 4),
             Text(
-              DateFormat('dd MMM yyyy').format(selectedDate),
+              selectedDate != null
+                  ? DateFormat('dd MMM yyyy').format(selectedDate!)
+                  : 'No Date',
               style: const TextStyle(fontSize: 16),
             ),
           ],
@@ -49,10 +51,10 @@ class CalendarFooter extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             ElevatedButton(
               onPressed: () {
-                onDateSelected(selectedDate);
+                onDateSelected(selectedDate); // null-safe callback
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(

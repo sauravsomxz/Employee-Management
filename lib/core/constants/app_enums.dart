@@ -37,3 +37,5 @@ extension WeekdayExtension on Weekday {
     }
   }
 }
+
+enum CalendarType { startDate, endDate }

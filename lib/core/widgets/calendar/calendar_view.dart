@@ -2,7 +2,7 @@ import 'package:employee_management/core/constants/app_enums.dart';
 import 'package:flutter/material.dart';
 
 class CalendarView extends StatelessWidget {
-  final DateTime selectedDate;
+  final DateTime? selectedDate;
   final Function(DateTime) onDateTap;
 
   const CalendarView({
@@ -13,27 +13,32 @@ class CalendarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Fallback to current date to render the month's structure only
+    final DateTime displayMonth = selectedDate ?? DateTime.now();
+
     DateTime firstDayOfMonth = DateTime(
-      selectedDate.year,
-      selectedDate.month,
+      displayMonth.year,
+      displayMonth.month,
       1,
     );
     int startingWeekday = firstDayOfMonth.weekday % 7;
 
     List<Widget> calendarDays = [];
 
+    // Add blank placeholders for days before the first
     for (int i = 0; i < startingWeekday; i++) {
       calendarDays.add(const SizedBox());
     }
 
     int daysInMonth = DateUtils.getDaysInMonth(
-      selectedDate.year,
-      selectedDate.month,
+      displayMonth.year,
+      displayMonth.month,
     );
+
     for (int day = 1; day <= daysInMonth; day++) {
       DateTime currentDate = DateTime(
-        selectedDate.year,
-        selectedDate.month,
+        displayMonth.year,
+        displayMonth.month,
         day,
       );
 
@@ -43,9 +48,10 @@ class CalendarView extends StatelessWidget {
           DateTime.now().day == currentDate.day;
 
       bool isSelected =
-          currentDate.year == selectedDate.year &&
-          currentDate.month == selectedDate.month &&
-          currentDate.day == selectedDate.day;
+          selectedDate != null &&
+          currentDate.year == selectedDate!.year &&
+          currentDate.month == selectedDate!.month &&
+          currentDate.day == selectedDate!.day;
 
       calendarDays.add(
         GestureDetector(
