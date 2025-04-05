@@ -27,123 +27,150 @@ class EmployeeListPage extends StatelessWidget {
         backgroundColor: AppColors.primary,
         centerTitle: false,
       ),
-      body: SingleChildScrollView(
-        child: ValueListenableBuilder(
-          valueListenable: EmployeeRepository.currentEmployees,
-          builder: (context, current, _) {
-            return ValueListenableBuilder(
-              valueListenable: EmployeeRepository.previousEmployees,
-              builder: (context, previous, _) {
-                if (current.isEmpty && previous.isEmpty) {
-                  return Center(
-                    child: Image.asset(
-                      ImagePaths.emptyState,
-                      height: 261,
-                      width: 244,
-                    ),
-                  );
-                }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (current.isNotEmpty) ...[
-                      Container(
-                        width: double.infinity,
-                        height: 50,
-                        color: AppColors.headingBgColor,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 14.0, left: 8.0),
-                          child: const Text(
-                            'Current Employees',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.primary,
+      body: ValueListenableBuilder(
+        valueListenable: EmployeeRepository.currentEmployees,
+        builder: (context, current, _) {
+          return ValueListenableBuilder(
+            valueListenable: EmployeeRepository.previousEmployees,
+            builder: (context, previous, _) {
+              final isEmpty = current.isEmpty && previous.isEmpty;
+
+              return SingleChildScrollView(
+                child:
+                    isEmpty
+                        ? Container(
+                          margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height / 5,
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              ImagePaths.emptyState,
+                              height: 261,
+                              width: 244,
                             ),
                           ),
-                        ),
-                      ),
-                      ...current.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final employee = entry.value;
-                        final isLast = index == current.length - 1;
-
-                        return Column(
+                        )
+                        : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            EmployeeCard(
-                              employee: employee,
-                              onDelete:
-                                  () => EmployeeRepository.deleteEmployee(
-                                    employee,
+                            if (current.isNotEmpty) ...[
+                              Container(
+                                width: double.infinity,
+                                height: 50,
+                                color: AppColors.headingBgColor,
+                                child: const Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 14.0,
+                                    left: 8.0,
                                   ),
-                              index: index,
-                            ),
-                            if (!isLast) const Divider(height: 0),
-                          ],
-                        );
-                      }),
-                    ],
-                    if (previous.isNotEmpty) ...[
-                      Container(
-                        width: double.infinity,
-                        height: 50,
-                        color: AppColors.headingBgColor,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 14.0, left: 8.0),
-                          child: const Text(
-                            'Previous Employees',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ),
-                      ),
-                      ...previous.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final employee = entry.value;
-                        final isLast = index == previous.length - 1;
+                                  child: Text(
+                                    'Current Employees',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              ...current.asMap().entries.map((entry) {
+                                final index = entry.key;
+                                final employee = entry.value;
+                                final isLast = index == current.length - 1;
 
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            EmployeeCard(
-                              employee: employee,
-                              onDelete:
-                                  () => EmployeeRepository.deleteEmployee(
-                                    employee,
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    EmployeeCard(
+                                      employee: employee,
+                                      onDelete:
+                                          () =>
+                                              EmployeeRepository.deleteEmployee(
+                                                employee,
+                                              ),
+                                      index: index,
+                                    ),
+                                    if (!isLast) const Divider(height: 0),
+                                  ],
+                                );
+                              }),
+                            ],
+                            if (previous.isNotEmpty) ...[
+                              Container(
+                                width: double.infinity,
+                                height: 50,
+                                color: AppColors.headingBgColor,
+                                child: const Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 14.0,
+                                    left: 8.0,
                                   ),
-                              index: index,
-                            ),
-                            if (!isLast) const Divider(height: 0),
+                                  child: Text(
+                                    'Previous Employees',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              ...previous.asMap().entries.map((entry) {
+                                final index = entry.key;
+                                final employee = entry.value;
+                                final isLast = index == previous.length - 1;
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    EmployeeCard(
+                                      employee: employee,
+                                      onDelete:
+                                          () =>
+                                              EmployeeRepository.deleteEmployee(
+                                                employee,
+                                              ),
+                                      index: index,
+                                    ),
+                                    if (!isLast) const Divider(height: 0),
+                                  ],
+                                );
+                              }),
+                            ],
+                            const SizedBox(height: 100),
                           ],
-                        );
-                      }),
-                    ],
-                  ],
-                );
-              },
-            );
-          },
-        ),
+                        ),
+              );
+            },
+          );
+        },
       ),
+      bottomNavigationBar: ValueListenableBuilder(
+        valueListenable: EmployeeRepository.currentEmployees,
+        builder: (context, current, _) {
+          return ValueListenableBuilder(
+            valueListenable: EmployeeRepository.previousEmployees,
+            builder: (context, previous, _) {
+              if (current.isEmpty && previous.isEmpty) {
+                return const SizedBox.shrink();
+              }
 
-      bottomNavigationBar: Container(
-        height: 100,
-        color: AppColors.headingBgColor,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 12.0, top: 12.0),
-          child: Text(
-            "Swipe to delete",
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 15,
-              color: AppColors.textColor,
-            ),
-          ),
-        ),
+              return Container(
+                height: 100,
+                color: AppColors.headingBgColor,
+                padding: const EdgeInsets.only(left: 12.0, top: 12.0),
+                child: Text(
+                  "Swipe to delete",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
+                    color: AppColors.textColor,
+                  ),
+                ),
+              );
+            },
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
