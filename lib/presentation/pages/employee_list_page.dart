@@ -43,29 +43,69 @@ class EmployeeListPage extends StatelessWidget {
                 );
               }
 
-              return ListView(
-                padding: const EdgeInsets.all(16),
+              return Column(
                 children: [
                   if (current.isNotEmpty) ...[
-                    const Text(
-                      'Current Employees',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      width: double.infinity,
+                      height: 50,
+                      color: AppColors.headingBgColor,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 14.0, left: 8.0),
+                        child: const Text(
+                          'Current Employees',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primary,
+                          ),
+                        ),
                       ),
                     ),
-                    ...current.map((e) => EmployeeCard(employee: e)),
-                    const SizedBox(height: 20),
+                    ...current.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final employee = entry.value;
+                      final isLast = index == current.length - 1;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          EmployeeCard(employee: employee),
+                          if (!isLast) const Divider(height: 0),
+                        ],
+                      );
+                    }),
                   ],
                   if (previous.isNotEmpty) ...[
-                    const Text(
-                      'Previous Employees',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      width: double.infinity,
+                      height: 50,
+                      color: AppColors.headingBgColor,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 14.0, left: 8.0),
+                        child: const Text(
+                          'Previous Employees',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primary,
+                          ),
+                        ),
                       ),
                     ),
-                    ...previous.map((e) => EmployeeCard(employee: e)),
+                    ...previous.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final employee = entry.value;
+                      final isLast = index == previous.length - 1;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          EmployeeCard(employee: employee),
+                          if (!isLast) const Divider(height: 0),
+                        ],
+                      );
+                    }),
                   ],
                 ],
               );

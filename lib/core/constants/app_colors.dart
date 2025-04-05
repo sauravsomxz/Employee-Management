@@ -10,4 +10,6 @@ class AppColors {
   static const Color textColor = Color(0xff323238);
 
   static const Color textSelectionColor = Color(0x331DA1F2);
+
+  static const Color headingBgColor = Color(0xffF2F2F2);
 }
