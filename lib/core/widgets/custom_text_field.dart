@@ -7,6 +7,7 @@ class CustomTextField extends StatelessWidget {
   final bool readOnly;
   final VoidCallback? onTap;
   final TextEditingController? controller;
+  final Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
@@ -15,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.controller,
+    this.onChanged,
   });
 
   @override
@@ -51,6 +53,7 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
           ),
         ),
+        onChanged: onChanged,
       ),
     );
   }

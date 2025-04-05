@@ -8,7 +8,9 @@ import 'package:employee_management/core/widgets/custom_text_field.dart';
 import 'package:employee_management/cubit/calendar/calendar_cubit.dart';
 import 'package:employee_management/cubit/employee_form_cubit.dart';
 import 'package:employee_management/cubit/employee_form_state.dart';
+import 'package:employee_management/data/models/employee_model.dart';
 import 'package:employee_management/presentation/widgets/role_selection_bottom_sheet.dart';
+import 'package:employee_management/repository/employee_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -46,6 +48,9 @@ class EmployeeFormPage extends StatelessWidget {
               CustomTextField(
                 hintText: AppStrings.employeeNameHint,
                 prefixIcon: Image.asset(ImagePaths.personHollowIcon),
+                onChanged: (value) {
+                  context.read<EmployeeFormCubit>().setName(value);
+                },
               ),
               const SizedBox(height: 18),
 
@@ -211,7 +216,36 @@ class EmployeeFormPage extends StatelessWidget {
           ),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            final cubit = context.read<EmployeeFormCubit>();
+            final state = cubit.state;
+
+            final name = state.name;
+            final role = state.selectedRole;
+            final startDate = state.startDate;
+            final endDate = state.endDate;
+
+            if (name != null &&
+                name.isNotEmpty &&
+                role != null &&
+                startDate != null) {
+              final newEmployee = Employee(
+                name: name,
+                role: role,
+                startDate: startDate,
+                endDate: endDate,
+              );
+              EmployeeRepository.addEmployee(newEmployee);
+              Navigator.pop(context); // Return to list
+            } else {
+              // Show snackbar or alert
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Please fill all required fields."),
+                ),
+              );
+            }
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
             foregroundColor: AppColors.white,

@@ -5,6 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class EmployeeFormCubit extends Cubit<EmployeeFormState> {
   EmployeeFormCubit() : super(EmployeeFormState.initial());
 
+  void setName(String name) {
+    emit(state.copyWith(name: name));
+  }
+
   void setRole(EmployeeRole role) {
     emit(state.copyWith(selectedRole: role));
   }

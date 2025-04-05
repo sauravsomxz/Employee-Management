@@ -1,6 +1,22 @@
-enum EmployeeRole { productDesigner, flutterDeveloper, qaTester, productOwner }
+import 'package:hive/hive.dart';
+part 'app_enums.g.dart';
 
-extension EmployeeRoleExtension on EmployeeRole {
+@HiveType(typeId: 1)
+enum EmployeeRole {
+  @HiveField(0)
+  productDesigner,
+
+  @HiveField(1)
+  flutterDeveloper,
+
+  @HiveField(2)
+  qaTester,
+
+  @HiveField(3)
+  productOwner,
+}
+
+extension EmployeeRoleLabel on EmployeeRole {
   String get label {
     switch (this) {
       case EmployeeRole.productDesigner:
