@@ -174,19 +174,24 @@ class _EmployeeFormPageState extends State<EmployeeFormPage> {
                       },
                       child: AbsorbPointer(
                         child: CustomTextField(
-                          hintText:
-                              context
-                                          .watch<EmployeeFormCubit>()
-                                          .state
-                                          .startDate !=
-                                      null
-                                  ? DateFormat('dd MMM yyyy').format(
-                                    context
-                                        .watch<EmployeeFormCubit>()
-                                        .state
-                                        .startDate!,
-                                  )
-                                  : AppStrings.todayHint,
+                          hintText: () {
+                            final startDate =
+                                context
+                                    .watch<EmployeeFormCubit>()
+                                    .state
+                                    .startDate;
+                            if (startDate == null) return AppStrings.todayHint;
+
+                            final now = DateTime.now();
+                            final isToday =
+                                startDate.year == now.year &&
+                                startDate.month == now.month &&
+                                startDate.day == now.day;
+
+                            return isToday
+                                ? 'Today'
+                                : DateFormat('dd MMM yyyy').format(startDate);
+                          }(),
                           prefixIcon: Image.asset(
                             ImagePaths.calendarHollowIcon,
                           ),
