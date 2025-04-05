@@ -54,6 +54,7 @@ class CustomCalendarDialog extends StatelessWidget {
                     onDateTap:
                         (date) =>
                             context.read<CalendarCubit>().selectDate(date),
+                    minDate: state.startDate,
                   ),
                   const Divider(),
                   CalendarFooter(

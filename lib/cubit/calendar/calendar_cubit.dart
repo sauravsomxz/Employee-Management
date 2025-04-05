@@ -3,32 +3,41 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalendarState {
   final DateTime? selectedDate;
+  final DateTime? startDate;
 
-  CalendarState({required this.selectedDate});
+  CalendarState({required this.selectedDate, required this.startDate});
 
-  CalendarState copyWith({DateTime? selectedDate}) {
-    return CalendarState(selectedDate: selectedDate);
+  CalendarState copyWith({DateTime? selectedDate, DateTime? startDate}) {
+    return CalendarState(
+      selectedDate: selectedDate ?? this.selectedDate,
+      startDate: startDate ?? this.startDate,
+    );
   }
 }
 
 class CalendarCubit extends Cubit<CalendarState> {
-  CalendarCubit() : super(CalendarState(selectedDate: DateTime.now()));
+  CalendarCubit({DateTime? startDate})
+    : super(CalendarState(selectedDate: DateTime.now(), startDate: startDate));
+
+  void setStartDate(DateTime date) {
+    emit(state.copyWith(startDate: date));
+  }
 
   void selectDate(DateTime date) {
-    emit(CalendarState(selectedDate: date));
+    emit(state.copyWith(selectedDate: date));
   }
 
   void selectQuickDate(int daysToAdd) {
     final target = DateTime.now().add(Duration(days: daysToAdd));
     emit(
-      CalendarState(
+      state.copyWith(
         selectedDate: DateTime(target.year, target.month, target.day),
       ),
     );
   }
 
   void clearDate() {
-    emit(CalendarState(selectedDate: null));
+    emit(state.copyWith(selectedDate: null));
   }
 
   void changeMonth(int offset) {
@@ -49,6 +58,6 @@ class CalendarCubit extends Cubit<CalendarState> {
     int newDay =
         state.selectedDate!.day <= daysInNewMonth ? state.selectedDate!.day : 1;
 
-    emit(CalendarState(selectedDate: DateTime(newYear, newMonth, newDay)));
+    emit(state.copyWith(selectedDate: DateTime(newYear, newMonth, newDay)));
   }
 }

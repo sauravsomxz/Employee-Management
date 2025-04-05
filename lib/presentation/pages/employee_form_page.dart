@@ -160,11 +160,14 @@ class EmployeeFormPage extends StatelessWidget {
                           context: context,
                           builder:
                               (_) => BlocProvider(
-                                create: (_) => CalendarCubit(),
+                                create:
+                                    (_) => CalendarCubit(
+                                      startDate: cubit.state.startDate,
+                                    ),
                                 child: CustomCalendarDialog(
-                                  onDateSelected: (date) {
-                                    cubit.setEndDate(date!);
-                                  },
+                                  onDateSelected:
+                                      (selectedDate) =>
+                                          cubit.setEndDate(selectedDate!),
                                   calendarType: CalendarType.endDate,
                                 ),
                               ),

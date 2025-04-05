@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 class CalendarView extends StatelessWidget {
   final DateTime? selectedDate;
+  final DateTime? minDate;
   final Function(DateTime) onDateTap;
 
   const CalendarView({
     super.key,
     required this.selectedDate,
     required this.onDateTap,
+    this.minDate,
   });
 
   @override
@@ -53,9 +55,15 @@ class CalendarView extends StatelessWidget {
           currentDate.month == selectedDate!.month &&
           currentDate.day == selectedDate!.day;
 
+      bool isDisabled =
+          minDate != null &&
+          currentDate.isBefore(
+            DateTime(minDate!.year, minDate!.month, minDate!.day),
+          );
+
       calendarDays.add(
         GestureDetector(
-          onTap: () => onDateTap(currentDate),
+          onTap: isDisabled ? null : () => onDateTap(currentDate),
           child: Container(
             margin: const EdgeInsets.all(4),
             alignment: Alignment.center,
@@ -72,7 +80,12 @@ class CalendarView extends StatelessWidget {
             child: Text(
               "$day",
               style: TextStyle(
-                color: isSelected ? Colors.white : Colors.black,
+                color:
+                    isDisabled
+                        ? Colors.grey
+                        : isSelected
+                        ? Colors.white
+                        : Colors.black,
                 fontWeight: FontWeight.w400,
                 fontSize: 15,
               ),
