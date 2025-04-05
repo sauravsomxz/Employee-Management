@@ -10,4 +10,6 @@ class ImagePaths {
   static const String calendarArrowLeft = "$_basePath/calendar_arrow_left.png";
   static const String calendarArrowRight =
       "$_basePath/calendar_arrow_right.png";
+
+  static const String deleteIcon = "$_basePath/delete_icon.png";
 }

@@ -49,8 +49,10 @@ class _EmployeeFormPageState extends State<EmployeeFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          AppStrings.addEmployeeDetails,
+        title: Text(
+          widget.employeeToEdit != null
+              ? "Edit Employee Details"
+              : AppStrings.addEmployeeDetails,
           style: TextStyle(
             color: AppColors.white,
             fontWeight: FontWeight.w500,
@@ -61,6 +63,23 @@ class _EmployeeFormPageState extends State<EmployeeFormPage> {
         iconTheme: const IconThemeData(color: AppColors.white),
         centerTitle: false,
         automaticallyImplyLeading: false,
+        actions: [
+          if (widget.employeeToEdit != null)
+            GestureDetector(
+              onTap: () {
+                EmployeeRepository.deleteEmployee(widget.employeeToEdit!);
+                Navigator.pop(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: Image.asset(
+                  ImagePaths.deleteIcon,
+                  height: 24,
+                  width: 24,
+                ),
+              ),
+            ),
+        ],
       ),
       body: GestureDetector(
         onTap: () {
