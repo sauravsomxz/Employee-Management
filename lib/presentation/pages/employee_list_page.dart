@@ -42,7 +42,6 @@ class EmployeeListPage extends StatelessWidget {
                   ),
                 );
               }
-
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -108,23 +107,27 @@ class EmployeeListPage extends StatelessWidget {
                       );
                     }),
                   ],
-                  const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      "Swipe to delete",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        color: AppColors.textColor,
-                      ),
-                    ),
-                  ),
                 ],
               );
             },
           );
         },
+      ),
+
+      bottomNavigationBar: Container(
+        height: 100,
+        color: AppColors.headingBgColor,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12.0, top: 12.0),
+          child: Text(
+            "Swipe to delete",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 15,
+              color: AppColors.textColor,
+            ),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
