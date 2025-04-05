@@ -26,8 +26,6 @@ class CustomCalendarDialog extends StatelessWidget {
       child: BlocBuilder<CalendarCubit, CalendarState>(
         builder: (context, state) {
           final DateTime? selectedDate = state.selectedDate;
-
-          // We'll use today to determine month layout and header even if selectedDate is null
           final DateTime monthContext = selectedDate ?? DateTime.now();
 
           return FractionallySizedBox(
@@ -52,15 +50,14 @@ class CustomCalendarDialog extends StatelessWidget {
                   const SizedBox(height: 12),
                   MonthHeader(selectedDate: monthContext),
                   CalendarView(
-                    selectedDate:
-                        selectedDate, // pass null to avoid highlighting
+                    selectedDate: selectedDate,
                     onDateTap:
                         (date) =>
                             context.read<CalendarCubit>().selectDate(date),
                   ),
                   const Divider(),
                   CalendarFooter(
-                    selectedDate: selectedDate, // nullable supported here
+                    selectedDate: selectedDate,
                     onDateSelected: onDateSelected,
                   ),
                 ],
