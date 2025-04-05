@@ -15,8 +15,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class EmployeeFormPage extends StatelessWidget {
-  const EmployeeFormPage({super.key});
+class EmployeeFormPage extends StatefulWidget {
+  final Employee? employeeToEdit;
+
+  const EmployeeFormPage({super.key, this.employeeToEdit});
+
+  @override
+  State<EmployeeFormPage> createState() => _EmployeeFormPageState();
+}
+
+class _EmployeeFormPageState extends State<EmployeeFormPage> {
+  late final EmployeeFormCubit _cubit;
+  TextEditingController nameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = context.read<EmployeeFormCubit>();
+
+    if (widget.employeeToEdit != null) {
+      final employee = widget.employeeToEdit!;
+      _cubit.setName(employee.name);
+      nameController.text = employee.name;
+      _cubit.setRole(employee.role);
+      _cubit.setStartDate(employee.startDate);
+      if (employee.endDate != null) {
+        _cubit.setEndDate(employee.endDate!);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +75,7 @@ class EmployeeFormPage extends StatelessWidget {
               CustomTextField(
                 hintText: AppStrings.employeeNameHint,
                 prefixIcon: Image.asset(ImagePaths.personHollowIcon),
+                controller: nameController,
                 onChanged: (value) {
                   context.read<EmployeeFormCubit>().setName(value);
                 },
@@ -232,16 +260,27 @@ class EmployeeFormPage extends StatelessWidget {
                 name.isNotEmpty &&
                 role != null &&
                 startDate != null) {
-              final newEmployee = Employee(
-                name: name,
-                role: role,
-                startDate: startDate,
-                endDate: endDate,
-              );
-              EmployeeRepository.addEmployee(newEmployee);
+              if (widget.employeeToEdit != null) {
+                widget.employeeToEdit!
+                  ..name = name
+                  ..role = role
+                  ..startDate = startDate
+                  ..endDate = endDate;
+
+                EmployeeRepository.updateEmployee(widget.employeeToEdit!);
+              } else {
+                // Adding new employee
+                final newEmployee = Employee(
+                  name: name,
+                  role: role,
+                  startDate: startDate,
+                  endDate: endDate,
+                );
+                EmployeeRepository.addEmployee(newEmployee);
+              }
+
               Navigator.pop(context); // Return to list
             } else {
-              // Show snackbar or alert
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text("Please fill all required fields."),

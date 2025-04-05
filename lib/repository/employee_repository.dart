@@ -36,4 +36,9 @@ class EmployeeRepository {
 
     loadEmployees();
   }
+
+  static Future<void> updateEmployee(Employee employee) async {
+    await employee.save();
+    loadEmployees();
+  }
 }
