@@ -30,6 +30,7 @@
 /build/app/
 /build/path_provider_android/
 /build/native_assets/
+/build/afc371b3429d8a3d5890c480640e073c/
 
 # Android related
 **/android/**/gradle-wrapper.jar
