@@ -22,7 +22,7 @@ class CalendarState {
 
 class CalendarCubit extends Cubit<CalendarState> {
   CalendarCubit({DateTime? selectedDate, DateTime? startDate})
-    : super(CalendarState(selectedDate: selectedDate, startDate: startDate));
+    : super(CalendarState(selectedDate: DateTime.now(), startDate: startDate));
 
   void setStartDate(DateTime date) {
     emit(state.copyWith(startDate: date));
