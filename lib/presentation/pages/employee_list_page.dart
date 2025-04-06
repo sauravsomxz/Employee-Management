@@ -64,7 +64,7 @@ class EmployeeListPage extends StatelessWidget {
                                     left: 8.0,
                                   ),
                                   child: Text(
-                                    'Current Employees',
+                                    AppStrings.currentEmployee,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -106,7 +106,7 @@ class EmployeeListPage extends StatelessWidget {
                                     left: 8.0,
                                   ),
                                   child: Text(
-                                    'Previous Employees',
+                                    AppStrings.previousEmployees,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,

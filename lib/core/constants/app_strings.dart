@@ -12,4 +12,11 @@ class AppStrings {
   static const String selectRoleHint = "Select Role";
   static const String todayHint = "Today";
   static const String noDateHint = "No Date";
+
+  static const String editEmployeeDetails = "Edit Employee Details";
+  static const String pleaseFillAllRequiredFields =
+      "Please fill all required fields.";
+
+  static const String currentEmployee = "Current Employees";
+  static const String previousEmployees = "Previous Employees";
 }

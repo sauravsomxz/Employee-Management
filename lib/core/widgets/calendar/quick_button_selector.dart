@@ -1,4 +1,5 @@
 import 'package:employee_management/core/constants/app_enums.dart';
+import 'package:employee_management/core/constants/app_strings.dart';
 import 'package:employee_management/core/utils/helper.dart';
 import 'package:employee_management/core/widgets/calendar/quick_buttons.dart';
 import 'package:employee_management/cubit/calendar/calendar_cubit.dart';
@@ -22,7 +23,7 @@ class QuickButtonsSection extends StatelessWidget {
         children: [
           Expanded(
             child: QuickSelectButton(
-              label: "No Date",
+              label: AppStrings.noDateHint,
               daysToAdd: 0,
               selectedDate: selectedDate,
               isNoDate: true,
@@ -32,7 +33,7 @@ class QuickButtonsSection extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: QuickSelectButton(
-              label: "Today",
+              label: AppStrings.todayHint,
               daysToAdd: 0,
               selectedDate: selectedDate,
               onTap:
@@ -48,7 +49,7 @@ class QuickButtonsSection extends StatelessWidget {
             children: [
               Expanded(
                 child: QuickSelectButton(
-                  label: "Today",
+                  label: AppStrings.todayHint,
                   daysToAdd: 0,
                   selectedDate: selectedDate,
                   onTap:

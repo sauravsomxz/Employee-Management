@@ -51,7 +51,7 @@ class _EmployeeFormPageState extends State<EmployeeFormPage> {
       appBar: AppBar(
         title: Text(
           widget.employeeToEdit != null
-              ? "Edit Employee Details"
+              ? AppStrings.editEmployeeDetails
               : AppStrings.addEmployeeDetails,
           style: TextStyle(
             color: AppColors.white,
@@ -303,11 +303,11 @@ class _EmployeeFormPageState extends State<EmployeeFormPage> {
                 EmployeeRepository.addEmployee(newEmployee);
               }
 
-              Navigator.pop(context); // Return to list
+              Navigator.pop(context);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text("Please fill all required fields."),
+                  content: Text(AppStrings.pleaseFillAllRequiredFields),
                 ),
               );
             }

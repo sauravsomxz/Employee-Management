@@ -26,7 +26,7 @@ class CalendarFooter extends StatelessWidget {
             Text(
               selectedDate != null
                   ? DateFormat('dd MMM yyyy').format(selectedDate!)
-                  : 'No Date',
+                  : AppStrings.noDateHint,
               style: const TextStyle(fontSize: 16),
             ),
           ],
