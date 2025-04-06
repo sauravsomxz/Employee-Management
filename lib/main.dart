@@ -3,15 +3,21 @@ import 'package:employee_management/core/constants/app_enums.dart';
 import 'package:employee_management/data/models/employee_model.dart';
 import 'package:employee_management/repository/employee_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'presentation/pages/employee_list_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final dir = await getApplicationDocumentsDirectory();
-  Hive.init(dir.path);
+  // Hive init for web vs other platforms
+  if (!UniversalPlatform.isWeb) {
+    final dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+  } else {
+    await Hive.initFlutter(); // Hive handles web initialization internally
+  }
 
   Hive.registerAdapter(EmployeeAdapter());
   Hive.registerAdapter(EmployeeRoleAdapter());
@@ -35,7 +41,7 @@ class EmployeeApp extends StatelessWidget {
           selectionHandleColor: AppColors.primary,
         ),
       ),
-      home: EmployeeListPage(),
+      home: const EmployeeListPage(),
     );
   }
 }

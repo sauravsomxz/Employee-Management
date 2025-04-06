@@ -23,19 +23,28 @@ class CustomCalendarDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(16),
-      child: BlocBuilder<CalendarCubit, CalendarState>(
-        builder: (context, state) {
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final state = context.watch<CalendarCubit>().state;
           final DateTime? selectedDate = state.selectedDate;
           final DateTime monthContext = selectedDate ?? DateTime.now();
 
-          return FractionallySizedBox(
-            widthFactor: 1,
+          final screenHeight = constraints.maxHeight;
+          final isLargeScreen = constraints.maxWidth > 800;
+
+          // Set different heights depending on screen type
+          final double dialogHeight =
+              isLargeScreen
+                  ? screenHeight * 0.8
+                  : calculateCalendarRows(monthContext) > 5
+                  ? screenHeight * 0.7
+                  : screenHeight * 0.63;
+
+          return Center(
             child: Container(
+              width: isLargeScreen ? 500 : double.infinity,
+              height: dialogHeight,
               padding: const EdgeInsets.all(16),
-              height:
-                  calculateCalendarRows(monthContext) > 5
-                      ? MediaQuery.of(context).size.height * 0.7
-                      : MediaQuery.of(context).size.height * 0.63,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -49,12 +58,14 @@ class CustomCalendarDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   MonthHeader(selectedDate: monthContext),
-                  CalendarView(
-                    selectedDate: selectedDate,
-                    onDateTap:
-                        (date) =>
-                            context.read<CalendarCubit>().selectDate(date),
-                    minDate: state.startDate,
+                  Expanded(
+                    child: CalendarView(
+                      selectedDate: selectedDate,
+                      onDateTap:
+                          (date) =>
+                              context.read<CalendarCubit>().selectDate(date),
+                      minDate: state.startDate,
+                    ),
                   ),
                   const Divider(),
                   CalendarFooter(
