@@ -1,4 +1,4 @@
-name: Deploy Web
+name: Build & Push Web to Master
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  build-and-commit:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +22,27 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Copy Web Build to Temp Folder
+        run: |
+          mkdir temp_web
+          cp -r build/web/* temp_web/
+
+      - name: Checkout Master Again (to commit)
+        uses: actions/checkout@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/web
+          ref: master
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Replace build/web with New Build
+        run: |
+          rm -rf build/web
+          mkdir -p build/web
+          cp -r temp_web/* build/web/
+
+      - name: Commit Build Folder
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add build/web
+          git commit -m "chore: update web build on push to master" || echo "No changes to commit"
+          git push
