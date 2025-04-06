@@ -48,6 +48,7 @@ class _EmployeeFormPageState extends State<EmployeeFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: AppBar(
         title: Text(
           widget.employeeToEdit != null
